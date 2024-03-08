@@ -1,7 +1,7 @@
 {
-  "name": "matterbridge-eve-door",
+  "name": "matterbridge-eve-energy",
   "version": "1.0.1",
-  "description": "Matterbridge eve door with history",
+  "description": "Matterbridge eve energy with history",
   "author": "https://github.com/Luligu",
   "license": "MIT",
   "type": "module",
@@ -9,10 +9,10 @@
   "types": "dist/index.d.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Luligu/matterbridge-eve-door"
+    "url": "https://github.com/Luligu/matterbridge-eve-energy"
   },
   "bugs": {
-    "url": "https://github.com/Luligu/matterbridge-eve-door/issues"
+    "url": "https://github.com/Luligu/matterbridge-eve-energy/issues"
   },
   "keywords": [
     "matterbridge",
@@ -20,7 +20,7 @@
     "matter",
     "matter.js",
     "eve",
-    "door",
+    "energy",
     "history"
   ],
   "engines": {

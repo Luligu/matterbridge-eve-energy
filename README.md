@@ -1,2 +1,3 @@
-# Matterbridge
-Matterbridge accessory platform example plugin
+# Matterbridge plugin
+
+Matterbridge eve energy with history.

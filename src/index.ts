@@ -1,6 +1,6 @@
 import { Matterbridge } from 'matterbridge';
 import { AnsiLogger } from 'node-ansi-logger';
-import { EveDoorPlatform } from './platform.js';
+import { EveEnergyPlatform } from './platform.js';
 
 /**
  * This is the standard interface for MatterBridge plugins.
@@ -9,5 +9,5 @@ import { EveDoorPlatform } from './platform.js';
  * @param matterbridge - An instance of MatterBridge
  */
 export default function initializePlugin(matterbridge: Matterbridge, log: AnsiLogger) {
-  return new EveDoorPlatform(matterbridge, log);
+  return new EveEnergyPlatform(matterbridge, log);
 }
