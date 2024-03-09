@@ -20,7 +20,10 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
     energy.createDefaultGroupsClusterServer();
     energy.createDefaultOnOffClusterServer(true);
     energy.createDefaultElectricalMeasurementClusterServer();
+
     energy.createDefaultPowerSourceWiredClusterServer();
+
+    // Add the EveHistory cluster to the device as last cluster!
     energy.createEnergyEveHistoryClusterServer(history, this.log);
     history.autoPilot(energy);
 
@@ -40,14 +43,15 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
         const current = state === true ? history.getFakeLevel(0.05, 10.5, 2) : 0;
         const power = state === true ? history.getFakeLevel(0.5, 1550, 2) : 0;
         const consumption = history.getFakeLevel(0.5, 1550, 2);
-        energy?.getClusterServerById(OnOff.Cluster.id)?.setOnOffAttribute(state);
-        energy?.getClusterServerById(ElectricalMeasurement.Cluster.id)?.setRmsVoltageAttribute(voltage);
-        energy?.getClusterServerById(ElectricalMeasurement.Cluster.id)?.setRmsCurrentAttribute(current);
-        energy?.getClusterServerById(ElectricalMeasurement.Cluster.id)?.setActivePowerAttribute(power);
-        energy?.getClusterServerById(ElectricalMeasurement.Cluster.id)?.setTotalActivePowerAttribute(consumption);
-        energy?.getClusterServerById(EveHistory.Cluster.id)?.setVoltageAttribute(voltage);
-        energy?.getClusterServerById(EveHistory.Cluster.id)?.setCurrentAttribute(current);
-        energy?.getClusterServerById(EveHistory.Cluster.id)?.setConsumptionAttribute(power);
+        energy.getClusterServerById(OnOff.Cluster.id)?.setOnOffAttribute(state);
+        energy.getClusterServerById(ElectricalMeasurement.Cluster.id)?.setRmsVoltageAttribute(voltage);
+        energy.getClusterServerById(ElectricalMeasurement.Cluster.id)?.setRmsCurrentAttribute(current);
+        energy.getClusterServerById(ElectricalMeasurement.Cluster.id)?.setActivePowerAttribute(power);
+        energy.getClusterServerById(ElectricalMeasurement.Cluster.id)?.setTotalActivePowerAttribute(consumption);
+        energy.getClusterServerById(EveHistory.Cluster.id)?.setVoltageAttribute(voltage);
+        energy.getClusterServerById(EveHistory.Cluster.id)?.setCurrentAttribute(current);
+        energy.getClusterServerById(EveHistory.Cluster.id)?.setConsumptionAttribute(power);
+        energy.getClusterServerById(EveHistory.Cluster.id)?.setTotalConsumptionAttribute(consumption);
         history.setLastEvent();
         history.addEntry({ time: history.now(), status: state === true ? 1 : 0, voltage, current, power, consumption });
         this.log.info(`Set state to ${state} voltage:${voltage} current:${current} power:${power} consumption:${consumption}`);
