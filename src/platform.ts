@@ -42,7 +42,7 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
   override async onConfigure() {
     this.log.info('onConfigure called');
 
-    setInterval(
+    this.interval = setInterval(
       () => {
         if (!this.energy || !this.history) return;
         let state = this.energy.getClusterServerById(OnOff.Cluster.id)?.getOnOffAttribute();
@@ -70,6 +70,7 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
 
   override async onShutdown(reason?: string) {
     this.log.info('onShutdown called with reason:', reason ?? 'none');
+    await this.history?.close();
     clearInterval(this.interval);
   }
 }
