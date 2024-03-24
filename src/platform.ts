@@ -1,4 +1,4 @@
-import { DeviceTypes, ElectricalMeasurement, EveHistory, OnOff } from 'matterbridge';
+import { DeviceTypes, ElectricalMeasurement, EveHistory, OnOff, PlatformConfig } from 'matterbridge';
 
 import { Matterbridge, MatterbridgeDevice, MatterbridgeAccessoryPlatform, MatterHistory } from 'matterbridge';
 import { AnsiLogger } from 'node-ansi-logger';
@@ -8,8 +8,8 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
   history: MatterHistory | undefined;
   interval: NodeJS.Timeout | undefined;
 
-  constructor(matterbridge: Matterbridge, log: AnsiLogger) {
-    super(matterbridge, log);
+  constructor(matterbridge: Matterbridge, log: AnsiLogger, config: PlatformConfig) {
+    super(matterbridge, log, config);
   }
 
   override async onStart(reason?: string) {
@@ -72,5 +72,6 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
     this.log.info('onShutdown called with reason:', reason ?? 'none');
     await this.history?.close();
     clearInterval(this.interval);
+    await this.unregisterAllDevices();
   }
 }
