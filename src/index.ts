@@ -1,5 +1,5 @@
 import { Matterbridge, PlatformConfig } from 'matterbridge';
-import { AnsiLogger } from 'node-ansi-logger';
+import { AnsiLogger } from 'matterbridge/logger';
 import { EveEnergyPlatform } from './platform.js';
 
 /**

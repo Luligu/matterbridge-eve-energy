@@ -1,7 +1,6 @@
-import { DeviceTypes, ElectricalMeasurement, EveHistory, OnOff, PlatformConfig } from 'matterbridge';
-
-import { Matterbridge, MatterbridgeDevice, MatterbridgeAccessoryPlatform, MatterHistory } from 'matterbridge';
-import { AnsiLogger } from 'node-ansi-logger';
+import { DeviceTypes, ElectricalMeasurement, EveHistory, OnOff, PlatformConfig, Matterbridge, MatterbridgeDevice, MatterbridgeAccessoryPlatform, powerSource } from 'matterbridge';
+import { MatterHistory } from 'matterbridge/history';
+import { AnsiLogger } from 'matterbridge/logger';
 
 export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
   energy: MatterbridgeDevice | undefined;
@@ -23,12 +22,12 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
     this.energy.createDefaultScenesClusterServer();
     this.energy.createDefaultGroupsClusterServer();
     this.energy.createDefaultOnOffClusterServer(true);
-    this.energy.createDefaultElectricalMeasurementClusterServer();
 
+    this.energy.addDeviceType(powerSource);
     this.energy.createDefaultPowerSourceWiredClusterServer();
 
     // Add the EveHistory cluster to the device as last cluster!
-    this.energy.createEnergyEveHistoryClusterServer(this.history, this.log);
+    this.history.createEnergyEveHistoryClusterServer(this.energy, this.log);
     this.history.autoPilot(this.energy);
 
     await this.registerDevice(this.energy);
@@ -52,10 +51,6 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
         const power = state === true ? this.history.getFakeLevel(0.5, 1550, 2) : 0;
         const consumption = this.history.getFakeLevel(0.5, 1550, 2);
         this.energy.getClusterServerById(OnOff.Cluster.id)?.setOnOffAttribute(state);
-        this.energy.getClusterServerById(ElectricalMeasurement.Cluster.id)?.setRmsVoltageAttribute(voltage);
-        this.energy.getClusterServerById(ElectricalMeasurement.Cluster.id)?.setRmsCurrentAttribute(current);
-        this.energy.getClusterServerById(ElectricalMeasurement.Cluster.id)?.setActivePowerAttribute(power);
-        this.energy.getClusterServerById(ElectricalMeasurement.Cluster.id)?.setTotalActivePowerAttribute(consumption);
         this.energy.getClusterServerById(EveHistory.Cluster.id)?.setVoltageAttribute(voltage);
         this.energy.getClusterServerById(EveHistory.Cluster.id)?.setCurrentAttribute(current);
         this.energy.getClusterServerById(EveHistory.Cluster.id)?.setConsumptionAttribute(power);
