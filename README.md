@@ -10,9 +10,9 @@
 
 ---
 
-This plugin shows how to use the Matter history and how to create active device in matter.js.
+This plugin shows how to use the Matter history and how to create an active device in matter.js.
 
-It create an outlet device with electric measurements that continuously changes state.
+It creates a virtual outlet device with electric measurements that continuously changes state.
 
 ## Prerequisites
 
