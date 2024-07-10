@@ -1,4 +1,4 @@
-import { DeviceTypes, ElectricalMeasurement, EveHistory, OnOff, PlatformConfig, Matterbridge, MatterbridgeDevice, MatterbridgeAccessoryPlatform, powerSource } from 'matterbridge';
+import { DeviceTypes, EveHistory, OnOff, PlatformConfig, Matterbridge, MatterbridgeDevice, MatterbridgeAccessoryPlatform, powerSource } from 'matterbridge';
 import { MatterHistory } from 'matterbridge/history';
 import { AnsiLogger } from 'matterbridge/logger';
 
