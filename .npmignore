@@ -14,6 +14,7 @@ src
 # typescript
 tsconfig.json
 tsconfig.eslint.json
+tsconfig.tsbuildinfo
 
 # vscode
 .vscode
@@ -147,7 +148,19 @@ __test__
 .eslintrc
 .eslintrc.json
 .eslintignore
+eslint.config.js
 
 # prettier
 .prettierignore
 .prettierrc.json
+prettier.config.js
+
+# jest
+jest.config.js
+
+# screenshot
+screenshot
+
+# other stuff
+TODO.md
+yellow-button.png
