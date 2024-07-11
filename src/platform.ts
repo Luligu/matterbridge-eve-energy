@@ -1,5 +1,5 @@
-import { DeviceTypes, EveHistory, OnOff, PlatformConfig, Matterbridge, MatterbridgeDevice, MatterbridgeAccessoryPlatform, powerSource } from 'matterbridge';
-import { MatterHistory } from 'matterbridge/history';
+import { DeviceTypes, OnOff, PlatformConfig, Matterbridge, MatterbridgeDevice, MatterbridgeAccessoryPlatform, powerSource } from 'matterbridge';
+import { MatterHistory, EveHistory } from 'matterbridge/history';
 import { AnsiLogger } from 'matterbridge/logger';
 
 export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
@@ -9,6 +9,7 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
 
   constructor(matterbridge: Matterbridge, log: AnsiLogger, config: PlatformConfig) {
     super(matterbridge, log, config);
+    this.log.info('Initializing platform:', this.config.name);
   }
 
   override async onStart(reason?: string) {
