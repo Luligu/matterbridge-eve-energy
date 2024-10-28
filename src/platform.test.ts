@@ -12,20 +12,21 @@ describe('TestPlatform', () => {
   // const log = new AnsiLogger({ logName: 'shellyDeviceTest', logTimestampFormat: TimestampFormat.TIME_MILLIS, logDebug: true });
 
   beforeEach(() => {
-    mockMatterbridge = { addBridgedDevice: jest.fn() } as unknown as Matterbridge;
-    mockLog = { error: jest.fn(), warn: jest.fn(), info: jest.fn(), debug: jest.fn() } as unknown as AnsiLogger;
+    mockMatterbridge = {
+      addBridgedDevice: jest.fn(),
+      matterbridgeDirectory: '',
+      matterbridgePluginDirectory: 'temp',
+      systemInformation: { ipv4Address: undefined },
+      matterbridgeVersion: '1.6.0',
+      removeAllBridgedDevices: jest.fn(),
+    } as unknown as Matterbridge;
+    mockLog = { fatal: jest.fn(), error: jest.fn(), warn: jest.fn(), notice: jest.fn(), info: jest.fn(), debug: jest.fn() } as unknown as AnsiLogger;
     mockConfig = {
-      'name': 'matterbridge-test',
-      'type': 'DynamicPlatform',
-      'noDevices': false,
-      'throwLoad': false,
-      'throwStart': false,
-      'throwConfigure': false,
-      'throwShutdown': false,
+      'name': 'matterbridge-eve-energy',
+      'type': 'AccessoryPlatform',
       'unregisterOnShutdown': false,
-      'delayStart': false,
+      'debug': false,
     } as PlatformConfig;
-
     testPlatform = new EveEnergyPlatform(mockMatterbridge, mockLog, mockConfig);
   });
 
