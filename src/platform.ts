@@ -1,4 +1,16 @@
-import { DeviceTypes, OnOff, PlatformConfig, Matterbridge, MatterbridgeDevice, MatterbridgeAccessoryPlatform, powerSource } from 'matterbridge';
+import {
+  OnOff,
+  PlatformConfig,
+  Matterbridge,
+  MatterbridgeDevice,
+  MatterbridgeAccessoryPlatform,
+  powerSource,
+  EndpointOptions,
+  DeviceTypeDefinition,
+  AtLeastOne,
+  MatterbridgeEndpoint,
+  onOffOutlet,
+} from 'matterbridge';
 import { MatterHistory, EveHistory } from 'matter-history';
 import { AnsiLogger } from 'matterbridge/logger';
 
@@ -7,13 +19,20 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
   history: MatterHistory | undefined;
   interval: NodeJS.Timeout | undefined;
 
+  createMutableDevice(definition: DeviceTypeDefinition | AtLeastOne<DeviceTypeDefinition>, options: EndpointOptions = {}, debug = false): MatterbridgeDevice {
+    let device: MatterbridgeDevice;
+    if (this.matterbridge.edge === true) device = new MatterbridgeEndpoint(definition, options, debug) as unknown as MatterbridgeDevice;
+    else device = new MatterbridgeDevice(definition, options, debug);
+    return device;
+  }
+
   constructor(matterbridge: Matterbridge, log: AnsiLogger, config: PlatformConfig) {
     super(matterbridge, log, config);
 
     // Verify that Matterbridge is the correct version
-    if (this.verifyMatterbridgeVersion === undefined || typeof this.verifyMatterbridgeVersion !== 'function' || !this.verifyMatterbridgeVersion('1.6.0')) {
+    if (this.verifyMatterbridgeVersion === undefined || typeof this.verifyMatterbridgeVersion !== 'function' || !this.verifyMatterbridgeVersion('1.6.6')) {
       throw new Error(
-        `This plugin requires Matterbridge version >= "1.6.0". Please update Matterbridge from ${this.matterbridge.matterbridgeVersion} to the latest version in the frontend."`,
+        `This plugin requires Matterbridge version >= "1.6.6". Please update Matterbridge from ${this.matterbridge.matterbridgeVersion} to the latest version in the frontend."`,
       );
     }
 
@@ -23,16 +42,14 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
   override async onStart(reason?: string) {
     this.log.info('onStart called with reason:', reason ?? 'none');
 
-    this.history = new MatterHistory(this.log, 'Eve energy', { filePath: this.matterbridge.matterbridgeDirectory });
+    this.history = new MatterHistory(this.log, 'Eve energy', { filePath: this.matterbridge.matterbridgeDirectory, edge: this.matterbridge.edge });
 
-    this.energy = new MatterbridgeDevice(DeviceTypes.ON_OFF_PLUGIN_UNIT);
+    this.energy = this.createMutableDevice([onOffOutlet, powerSource], { uniqueStorageKey: 'EveEnergy' }, this.config.debug as boolean);
     this.energy.createDefaultIdentifyClusterServer();
     this.energy.createDefaultBasicInformationClusterServer('Eve energy', '0x88528475', 4874, 'Eve Systems', 80, 'Eve Energy 20EBO8301', 6650, '3.2.1', 1, '1.1');
     this.energy.createDefaultScenesClusterServer();
     this.energy.createDefaultGroupsClusterServer();
     this.energy.createDefaultOnOffClusterServer(true);
-
-    this.energy.addDeviceType(powerSource);
     this.energy.createDefaultPowerSourceWiredClusterServer();
 
     // Add the EveHistory cluster to the device as last cluster!
@@ -45,6 +62,11 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
       this.log.warn(`Command identify called identifyTime:${identifyTime}`);
       this.history?.logHistory(false);
     });
+
+    this.energy.addCommandHandler('triggerEffect', async ({ request: { effectIdentifier, effectVariant } }) => {
+      this.log.warn(`Command triggerEffect called effect ${effectIdentifier} variant ${effectVariant}`);
+      this.history?.logHistory(false);
+    });
   }
 
   override async onConfigure() {
@@ -53,17 +75,19 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
     this.interval = setInterval(
       () => {
         if (!this.energy || !this.history) return;
-        let state = this.energy.getClusterServerById(OnOff.Cluster.id)?.getOnOffAttribute();
+        let state = this.energy.getAttribute(OnOff.Cluster.id, 'onOff', this.log) as boolean;
         state = !state;
         const voltage = this.history.getFakeLevel(210, 235, 2);
         const current = state === true ? this.history.getFakeLevel(0.05, 10.5, 2) : 0;
         const power = state === true ? this.history.getFakeLevel(0.5, 1550, 2) : 0;
         const consumption = this.history.getFakeLevel(0.5, 1550, 2);
-        this.energy.getClusterServerById(OnOff.Cluster.id)?.setOnOffAttribute(state);
-        this.energy.getClusterServerById(EveHistory.Cluster.id)?.setVoltageAttribute(voltage);
-        this.energy.getClusterServerById(EveHistory.Cluster.id)?.setCurrentAttribute(current);
-        this.energy.getClusterServerById(EveHistory.Cluster.id)?.setConsumptionAttribute(power);
-        this.energy.getClusterServerById(EveHistory.Cluster.id)?.setTotalConsumptionAttribute(consumption);
+        this.energy.setAttribute(OnOff.Cluster.id, 'onOff', state, this.log);
+        if (!this.matterbridge.edge) {
+          this.energy.setAttribute(EveHistory.Cluster.id, 'Voltage', voltage, this.log);
+          this.energy.setAttribute(EveHistory.Cluster.id, 'Current', current, this.log);
+          this.energy.setAttribute(EveHistory.Cluster.id, 'Consumption', power, this.log);
+          this.energy.setAttribute(EveHistory.Cluster.id, 'TotalConsumption', consumption, this.log);
+        }
         this.history.setLastEvent();
         this.history.addEntry({ time: this.history.now(), status: state === true ? 1 : 0, voltage, current, power, consumption });
         this.log.info(`Set state to ${state} voltage:${voltage} current:${current} power:${power} consumption:${consumption}`);

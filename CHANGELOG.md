@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2024-12-14
+
+### Added
+
+- [package]: Verified to work with Matterbridge edge.
+- [package]: Require Matterbridge 1.6.6.
+- [package]: Matter 1.3 compliant.
+- [package]: Update dependencies.
+
 <a href="https://www.buymeacoffee.com/luligugithub">
   <img src="./yellow-button.png" alt="Buy me a coffee" width="120">
 </a>
