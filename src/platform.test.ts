@@ -89,13 +89,13 @@ describe('TestPlatform', () => {
     expect(mockLog.info).toHaveBeenCalledWith('onStart called with reason:', 'Test reason');
     expect(testPlatform.energy).toBeDefined();
     if (!testPlatform.energy) return;
-    expect(Object.keys(testPlatform.energy.behaviors.supported)).toHaveLength(7); // ["descriptor", "matterbridge", "identify", "scenesManagement", "groups", "onOff", "powerSource"]
+    expect(Object.keys(testPlatform.energy.behaviors.supported)).toHaveLength(6); // ["descriptor", "matterbridge", "identify", "groups", "onOff", "powerSource"]
   });
 
   it('should call onConfigure', async () => {
     expect(testPlatform.energy).toBeDefined();
     if (!testPlatform.energy) return;
-    expect(Object.keys(testPlatform.energy.behaviors.supported)).toHaveLength(7); // ["descriptor", "matterbridge", "identify", "scenesManagement", "groups", "onOff", "powerSource"]
+    expect(Object.keys(testPlatform.energy.behaviors.supported)).toHaveLength(6); // ["descriptor", "matterbridge", "identify", "groups", "onOff", "powerSource"]
 
     jest.useFakeTimers();
 
@@ -113,7 +113,7 @@ describe('TestPlatform', () => {
   it('should execute the commandHandlers', async () => {
     expect(testPlatform.energy).toBeDefined();
     if (!testPlatform.energy) return;
-    expect(Object.keys(testPlatform.energy.behaviors.supported)).toHaveLength(7); // ["descriptor", "matterbridge", "identify", "scenesManagement", "groups", "onOff", "powerSource"]
+    expect(Object.keys(testPlatform.energy.behaviors.supported)).toHaveLength(6); // ["descriptor", "matterbridge", "identify", "groups", "onOff", "powerSource"]
     await testPlatform.energy.executeCommandHandler('identify', { identifyTime: 5 });
     await testPlatform.energy.executeCommandHandler('triggerEffect', { effectIdentifier: Identify.EffectIdentifier.Blink, effectVariant: Identify.EffectVariant.Default });
   });
