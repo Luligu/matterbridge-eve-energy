@@ -23,7 +23,7 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
   override async onStart(reason?: string) {
     this.log.info('onStart called with reason:', reason ?? 'none');
 
-    this.history = new MatterHistory(this.log, 'Eve energy', { filePath: this.matterbridge.matterbridgeDirectory, edge: this.matterbridge.edge });
+    this.history = new MatterHistory(this.log, 'Eve energy', { filePath: this.matterbridge.matterbridgeDirectory });
 
     this.energy = new MatterbridgeEndpoint([onOffOutlet, powerSource], { uniqueStorageKey: 'Eve energy' }, this.config.debug as boolean);
     this.energy.createDefaultIdentifyClusterServer();
