@@ -64,7 +64,8 @@
     "history": "npm install matter-history && npm run deepCleanBuild",
     "dev:link": "npm link matterbridge",
     "dev:unlink": "npm unlink matterbridge",
-    "cleanBuildProduction": "npm run clean && npm run buildProduction"
+    "cleanBuildProduction": "npm run clean && npm run buildProduction",
+    "runMeBeforePublish": "npm run lint && npm run format && npm run build && npm run test"
   },
   "devDependencies": {
     "@eslint/js": "9.19.0",
@@ -74,6 +75,7 @@
     "eslint": "9.19.0",
     "eslint-config-prettier": "10.0.1",
     "eslint-plugin-jest": "28.11.0",
+    "eslint-plugin-n": "^17.15.1",
     "eslint-plugin-prettier": "5.2.3",
     "jest": "29.7.0",
     "prettier": "3.4.2",
