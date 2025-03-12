@@ -65,7 +65,8 @@
     "dev:link": "npm link matterbridge",
     "dev:unlink": "npm unlink matterbridge",
     "cleanBuildProduction": "npm run clean && npm run buildProduction",
-    "runMeBeforePublish": "npm run lint && npm run format && npm run build && npm run test"
+    "runMeBeforePublish": "npm run lint && npm run format && npm run build && npm run test",
+    "install:eslint": "npm uninstall eslint @types/eslint__js && npm install --save-dev @eslint/js typescript-eslint eslint-plugin-n && npm run lint"
   },
   "devDependencies": {
     "@eslint/js": "9.19.0",
