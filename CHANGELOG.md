@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.2] - 2025-04-03
+
+### Changed
+
+- [package]: Require Matterbridge 2.2.6.
+- [package]: Update package.
+- [package]: Update dependencies.
+
+<a href="https://www.buymeacoffee.com/luligugithub">
+  <img src="./yellow-button.png" alt="Buy me a coffee" width="120">
+</a>
+
 ## [1.2.1] - 2025-02-01
 
 ### Changed
