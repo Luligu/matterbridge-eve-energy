@@ -39,7 +39,7 @@ describe('TestPlatform', () => {
     matterbridgeDirectory: './jest/matterbridge',
     matterbridgePluginDirectory: './jest/plugins',
     systemInformation: { ipv4Address: undefined, ipv6Address: undefined, osRelease: 'xx.xx.xx.xx.xx.xx', nodeVersion: '22.1.10' },
-    matterbridgeVersion: '2.2.6',
+    matterbridgeVersion: '3.0.0',
     edge: true,
     log: mockLog,
     getDevices: jest.fn(() => {
@@ -77,7 +77,7 @@ describe('TestPlatform', () => {
   it('should not initialize platform with wrong version', () => {
     mockMatterbridge.matterbridgeVersion = '1.5.0';
     expect(() => (testPlatform = new EveEnergyPlatform(mockMatterbridge, mockLog, mockConfig))).toThrow();
-    mockMatterbridge.matterbridgeVersion = '2.2.6';
+    mockMatterbridge.matterbridgeVersion = '3.0.0';
   });
 
   it('should initialize platform with config name', () => {
