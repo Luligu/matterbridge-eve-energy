@@ -1,38 +1,23 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Matterbridge, MatterbridgeEndpoint, PlatformConfig } from 'matterbridge';
 import { Identify } from 'matterbridge/matter/clusters';
 import { AnsiLogger } from 'matterbridge/logger';
-import { EveEnergyPlatform } from './platform';
 import { jest } from '@jest/globals';
+
+import { EveEnergyPlatform } from './platform.ts';
 
 describe('TestPlatform', () => {
   let testPlatform: EveEnergyPlatform;
 
   // Spy on and mock AnsiLogger.log
-  const loggerLogSpy = jest.spyOn(AnsiLogger.prototype, 'log').mockImplementation((level: string, message: string, ...parameters: any[]) => {
-    //
-  });
+  const loggerLogSpy = jest.spyOn(AnsiLogger.prototype, 'log').mockImplementation((level: string, message: string, ...parameters: any[]) => {});
 
   const mockLog = {
-    fatal: jest.fn((message: string, ...parameters: any[]) => {
-      // console.log('mockLog.fatal', message, parameters);
-    }),
-    error: jest.fn((message: string, ...parameters: any[]) => {
-      // console.log('mockLog.error', message, parameters);
-    }),
-    warn: jest.fn((message: string, ...parameters: any[]) => {
-      // console.log('mockLog.warn', message, parameters);
-    }),
-    notice: jest.fn((message: string, ...parameters: any[]) => {
-      // console.log('mockLog.notice', message, parameters);
-    }),
-    info: jest.fn((message: string, ...parameters: any[]) => {
-      // console.log('mockLog.info', message, parameters);
-    }),
-    debug: jest.fn((message: string, ...parameters: any[]) => {
-      // console.log('mockLog.debug', message, parameters);
-    }),
+    fatal: jest.fn((message: string, ...parameters: any[]) => {}),
+    error: jest.fn((message: string, ...parameters: any[]) => {}),
+    warn: jest.fn((message: string, ...parameters: any[]) => {}),
+    notice: jest.fn((message: string, ...parameters: any[]) => {}),
+    info: jest.fn((message: string, ...parameters: any[]) => {}),
+    debug: jest.fn((message: string, ...parameters: any[]) => {}),
   } as unknown as AnsiLogger;
 
   const mockMatterbridge = {
@@ -40,25 +25,12 @@ describe('TestPlatform', () => {
     matterbridgePluginDirectory: './jest/plugins',
     systemInformation: { ipv4Address: undefined, ipv6Address: undefined, osRelease: 'xx.xx.xx.xx.xx.xx', nodeVersion: '22.1.10' },
     matterbridgeVersion: '3.0.0',
-    edge: true,
     log: mockLog,
-    getDevices: jest.fn(() => {
-      // console.log('getDevices called');
-      return [];
-    }),
-    getPlugins: jest.fn(() => {
-      // console.log('getDevices called');
-      return [];
-    }),
-    addBridgedEndpoint: jest.fn(async (pluginName: string, device: MatterbridgeEndpoint) => {
-      // console.log('addBridgedEndpoint called');
-    }),
-    removeBridgedEndpoint: jest.fn(async (pluginName: string, device: MatterbridgeEndpoint) => {
-      // console.log('removeBridgedEndpoint called');
-    }),
-    removeAllBridgedEndpoints: jest.fn(async (pluginName: string) => {
-      // console.log('removeAllBridgedEndpoints called');
-    }),
+    getDevices: jest.fn(() => []),
+    getPlugins: jest.fn(() => []),
+    addBridgedEndpoint: jest.fn(async (pluginName: string, device: MatterbridgeEndpoint) => {}),
+    removeBridgedEndpoint: jest.fn(async (pluginName: string, device: MatterbridgeEndpoint) => {}),
+    removeAllBridgedEndpoints: jest.fn(async (pluginName: string) => {}),
   } as unknown as Matterbridge;
 
   const mockConfig = {

@@ -1,6 +1,6 @@
+import { MatterHistory } from 'matter-history';
 import { PlatformConfig, Matterbridge, MatterbridgeAccessoryPlatform, powerSource, MatterbridgeEndpoint, onOffOutlet } from 'matterbridge';
 import { OnOff } from 'matterbridge/matter/clusters';
-import { MatterHistory } from 'matter-history';
 import { AnsiLogger } from 'matterbridge/logger';
 
 export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
