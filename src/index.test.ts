@@ -55,10 +55,10 @@ describe('initializePlugin', () => {
   } as unknown as Matterbridge;
 
   const mockConfig = {
-    'name': 'matterbridge-eve-energy',
-    'type': 'AccessoryPlatform',
-    'unregisterOnShutdown': false,
-    'debug': false,
+    name: 'matterbridge-eve-energy',
+    type: 'AccessoryPlatform',
+    unregisterOnShutdown: false,
+    debug: false,
   } as PlatformConfig;
 
   it('should return an instance of TestPlatform', () => {

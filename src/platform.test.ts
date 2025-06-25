@@ -62,10 +62,10 @@ describe('TestPlatform', () => {
   } as unknown as Matterbridge;
 
   const mockConfig = {
-    'name': 'matterbridge-eve-energy',
-    'type': 'AccessoryPlatform',
-    'unregisterOnShutdown': false,
-    'debug': false,
+    name: 'matterbridge-eve-energy',
+    type: 'AccessoryPlatform',
+    unregisterOnShutdown: false,
+    debug: false,
   } as PlatformConfig;
 
   testPlatform = new EveEnergyPlatform(mockMatterbridge, mockLog, mockConfig);
