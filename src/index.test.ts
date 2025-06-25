@@ -35,9 +35,9 @@ describe('initializePlugin', () => {
     debug: false,
   } as PlatformConfig;
 
-  it('should return an instance of TestPlatform', () => {
-    const result = initializePlugin(mockMatterbridge, mockLog, mockConfig);
-
-    expect(result).toBeInstanceOf(EveEnergyPlatform);
+  it('should return an instance of TestPlatform', async () => {
+    const platform = initializePlugin(mockMatterbridge, mockLog, mockConfig);
+    expect(platform).toBeInstanceOf(EveEnergyPlatform);
+    await platform.onShutdown();
   });
 });
