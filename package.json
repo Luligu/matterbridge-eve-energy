@@ -7,6 +7,7 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "homepage": "https://www.npmjs.com/package/matterbridge-eve-energy",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Luligu/matterbridge-eve-energy.git"
