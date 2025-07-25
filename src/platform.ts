@@ -26,7 +26,7 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
 
     this.history = new MatterHistory(this.log, 'Eve energy', { filePath: this.matterbridge.matterbridgeDirectory });
 
-    this.energy = new MatterbridgeEndpoint([onOffOutlet, powerSource], { uniqueStorageKey: 'Eve energy' }, this.config.debug as boolean);
+    this.energy = new MatterbridgeEndpoint([onOffOutlet, powerSource], { uniqueStorageKey: 'Eve energy', mode: 'server' }, this.config.debug as boolean);
     this.energy.createDefaultIdentifyClusterServer();
     this.energy.createDefaultBasicInformationClusterServer('Eve energy', '0x88528475', 4874, 'Eve Systems', 80, 'Eve Energy 20EBO8301', 6650, '3.2.1', 1, '1.1');
     // this.energy.createDefaultScenesClusterServer();
