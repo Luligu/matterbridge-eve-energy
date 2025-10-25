@@ -89,7 +89,6 @@ describe('TestPlatform', () => {
     expect(testPlatform.energy).toBeDefined();
     if (!testPlatform.energy) return;
 
-    setDebug(true);
     jest.useFakeTimers();
 
     await testPlatform.onConfigure();
@@ -100,7 +99,6 @@ describe('TestPlatform', () => {
     }
 
     jest.useRealTimers();
-    setDebug(false);
 
     expect(loggerLogSpy).toHaveBeenCalled();
     expect(loggerLogSpy).not.toHaveBeenCalledWith(LogLevel.ERROR, expect.anything());
