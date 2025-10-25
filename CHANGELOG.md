@@ -17,6 +17,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2025-10-24
+
+### Changed
+
+- [package]: Bumped platform to v. 2.0.0.
+- [package]: Updated dependencies.
+- [package]: Bumped package to automator v. 2.0.9
+- [jest]: Updated jestHelpers to v. 1.0.9.
+- [package]: Require matterbridge 3.3.0.
+- [index]: Updated to new signature PlatformMatterbridge.
+- [platform]: Updated to new signature PlatformMatterbridge.
+- [workflows]: Ignore any .md in build.yaml.
+- [workflows]: Ignore any .md in codeql.yaml.
+- [workflows]: Ignore any .md in codecov.yaml.
+- [workflows]: Improved speed on Node CI.
+- [devcontainer]: Added the plugin name to the container.
+- [devcontainer]: Improved performance of first build with shallow clone.
+
+<a href="https://www.buymeacoffee.com/luligugithub">
+  <img src="bmc-button.svg" alt="Buy me a coffee" width="80">
+</a>
+
 ## [1.3.1] - 2025-07-29
 
 ### Added

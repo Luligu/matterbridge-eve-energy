@@ -1,20 +1,56 @@
-import { MatterHistory } from 'matter-history';
-import { PlatformConfig, Matterbridge, MatterbridgeAccessoryPlatform, powerSource, MatterbridgeEndpoint, onOffOutlet } from 'matterbridge';
+/**
+ * This file contains the class EveEnergyPlatform.
+ *
+ * @file module.ts
+ * @author Luca Liguori
+ * @version 2.0.0
+ * @license Apache-2.0
+ *
+ * Copyright 2023, 2024, 2025, 2026 Luca Liguori.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import { EveHistory, MatterHistory } from 'matter-history';
+import { PlatformConfig, MatterbridgeAccessoryPlatform, powerSource, MatterbridgeEndpoint, onOffOutlet, PlatformMatterbridge } from 'matterbridge';
 import { OnOff } from 'matterbridge/matter/clusters';
 import { AnsiLogger } from 'matterbridge/logger';
+
+/**
+ * This is the standard interface for MatterBridge plugins.
+ * Each plugin should export a default function that follows this signature.
+ *
+ *  @param {PlatformMatterbridge} matterbridge - The Matterbridge instance.
+ *  @param {AnsiLogger} log - The logger instance for logging messages.
+ *  @param {PlatformConfig} config - The configuration for the platform.
+ *  @returns {EveEnergyPlatform} - An instance of the EveEnergyPlatform.
+ */
+export default function initializePlugin(matterbridge: PlatformMatterbridge, log: AnsiLogger, config: PlatformConfig): EveEnergyPlatform {
+  return new EveEnergyPlatform(matterbridge, log, config);
+}
 
 export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
   energy: MatterbridgeEndpoint | undefined;
   history: MatterHistory | undefined;
   interval: NodeJS.Timeout | undefined;
 
-  constructor(matterbridge: Matterbridge, log: AnsiLogger, config: PlatformConfig) {
+  constructor(matterbridge: PlatformMatterbridge, log: AnsiLogger, config: PlatformConfig) {
     super(matterbridge, log, config);
 
     // Verify that Matterbridge is the correct version
-    if (this.verifyMatterbridgeVersion === undefined || typeof this.verifyMatterbridgeVersion !== 'function' || !this.verifyMatterbridgeVersion('3.0.0')) {
+    if (this.verifyMatterbridgeVersion === undefined || typeof this.verifyMatterbridgeVersion !== 'function' || !this.verifyMatterbridgeVersion('3.3.0')) {
       throw new Error(
-        `This plugin requires Matterbridge version >= "3.0.0". Please update Matterbridge from ${this.matterbridge.matterbridgeVersion} to the latest version in the frontend."`,
+        `This plugin requires Matterbridge version >= "3.3.0". Please update Matterbridge from ${this.matterbridge.matterbridgeVersion} to the latest version in the frontend."`,
       );
     }
 
@@ -58,22 +94,21 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
   override async onConfigure() {
     this.log.info('onConfigure called');
 
+    let state = false;
     this.interval = setInterval(
-      () => {
+      async () => {
         if (!this.energy || !this.history) return;
-        let state = this.energy.getAttribute(OnOff.Cluster.id, 'onOff', this.log) as boolean;
+        // let state = this.energy.getAttribute(OnOff.Cluster.id, 'onOff', this.log) as boolean;
         state = !state;
         const voltage = this.history.getFakeLevel(210, 235, 2);
         const current = state === true ? this.history.getFakeLevel(0.05, 10.5, 2) : 0;
         const power = state === true ? this.history.getFakeLevel(0.5, 1550, 2) : 0;
         const consumption = this.history.getFakeLevel(0.5, 1550, 2);
-        this.energy.setAttribute(OnOff.Cluster.id, 'onOff', state, this.log);
-        /*
-        this.energy.setAttribute(EveHistory.Cluster.id, 'Voltage', voltage, this.log);
-        this.energy.setAttribute(EveHistory.Cluster.id, 'Current', current, this.log);
-        this.energy.setAttribute(EveHistory.Cluster.id, 'Consumption', power, this.log);
-        this.energy.setAttribute(EveHistory.Cluster.id, 'TotalConsumption', consumption, this.log);
-        */
+        await this.energy.setAttribute(OnOff.Cluster.id, 'onOff', state, this.log);
+        await this.energy.setAttribute(EveHistory.Cluster.id, 'voltage', voltage, this.log);
+        await this.energy.setAttribute(EveHistory.Cluster.id, 'current', current, this.log);
+        await this.energy.setAttribute(EveHistory.Cluster.id, 'consumption', power, this.log);
+        await this.energy.setAttribute(EveHistory.Cluster.id, 'totalConsumption', consumption, this.log);
         this.history.setLastEvent();
         this.history.addEntry({ time: this.history.now(), status: state === true ? 1 : 0, voltage, current, power, consumption });
         this.log.info(`Set state to ${state} voltage:${voltage} current:${current} power:${power} consumption:${consumption}`);
