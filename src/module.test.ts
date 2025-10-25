@@ -32,12 +32,13 @@ describe('TestPlatform', () => {
   let testPlatform: EveEnergyPlatform;
   let log: AnsiLogger;
 
-  const config = {
+  const config: PlatformConfig = {
     name: 'matterbridge-eve-energy',
     type: 'AccessoryPlatform',
+    version: '1.0.0',
     unregisterOnShutdown: false,
     debug: false,
-  } as PlatformConfig;
+  };
 
   beforeAll(async () => {
     matterbridge = await createMatterbridgeEnvironment(NAME);
