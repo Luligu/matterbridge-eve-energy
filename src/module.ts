@@ -43,6 +43,7 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
   energy: MatterbridgeEndpoint | undefined;
   history: MatterHistory | undefined;
   interval: NodeJS.Timeout | undefined;
+  state = false;
 
   constructor(matterbridge: PlatformMatterbridge, log: AnsiLogger, config: PlatformConfig) {
     super(matterbridge, log, config);
@@ -94,24 +95,22 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
   override async onConfigure() {
     this.log.info('onConfigure called');
 
-    let state = false;
     this.interval = setInterval(
       async () => {
         if (!this.energy || !this.history) return;
-        // let state = this.energy.getAttribute(OnOff.Cluster.id, 'onOff', this.log) as boolean;
-        state = !state;
+        this.state = !this.state;
         const voltage = this.history.getFakeLevel(210, 235, 2);
-        const current = state === true ? this.history.getFakeLevel(0.05, 10.5, 2) : 0;
-        const power = state === true ? this.history.getFakeLevel(0.5, 1550, 2) : 0;
+        const current = this.state === true ? this.history.getFakeLevel(0.05, 10.5, 2) : 0;
+        const power = this.state === true ? this.history.getFakeLevel(0.5, 1550, 2) : 0;
         const consumption = this.history.getFakeLevel(0.5, 1550, 2);
-        await this.energy.setAttribute(OnOff.Cluster.id, 'onOff', state, this.log);
+        await this.energy.setAttribute(OnOff.Cluster.id, 'onOff', this.state, this.log);
         await this.energy.setAttribute(EveHistory.Cluster.id, 'voltage', voltage, this.log);
         await this.energy.setAttribute(EveHistory.Cluster.id, 'current', current, this.log);
         await this.energy.setAttribute(EveHistory.Cluster.id, 'consumption', power, this.log);
         await this.energy.setAttribute(EveHistory.Cluster.id, 'totalConsumption', consumption, this.log);
         this.history.setLastEvent();
-        this.history.addEntry({ time: this.history.now(), status: state === true ? 1 : 0, voltage, current, power, consumption });
-        this.log.info(`Set state to ${state} voltage:${voltage} current:${current} power:${power} consumption:${consumption}`);
+        this.history.addEntry({ time: this.history.now(), status: this.state === true ? 1 : 0, voltage, current, power, consumption });
+        this.log.info(`Set state to ${this.state} voltage:${voltage} current:${current} power:${power} consumption:${consumption}`);
       },
       60 * 1000 - 200,
     );

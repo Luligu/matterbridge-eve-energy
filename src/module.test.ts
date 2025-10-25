@@ -16,6 +16,7 @@ import {
   createMatterbridgeEnvironment,
   destroyMatterbridgeEnvironment,
   loggerLogSpy,
+  setDebug,
   setupTest,
   startMatterbridgeEnvironment,
   stopMatterbridgeEnvironment,
@@ -88,6 +89,7 @@ describe('TestPlatform', () => {
     expect(testPlatform.energy).toBeDefined();
     if (!testPlatform.energy) return;
 
+    setDebug(true);
     jest.useFakeTimers();
 
     await testPlatform.onConfigure();
@@ -98,11 +100,12 @@ describe('TestPlatform', () => {
     }
 
     jest.useRealTimers();
+    setDebug(false);
 
     expect(loggerLogSpy).toHaveBeenCalled();
     expect(loggerLogSpy).not.toHaveBeenCalledWith(LogLevel.ERROR, expect.anything());
-    // expect(loggerLogSpy).toHaveBeenCalledWith(LogLevel.INFO, expect.stringContaining('Set state to true'));
-    // expect(loggerLogSpy).toHaveBeenCalledWith(LogLevel.INFO, expect.stringContaining('Set state to false'));
+    expect(loggerLogSpy).toHaveBeenCalledWith(LogLevel.INFO, expect.stringContaining('Set state to true'));
+    expect(loggerLogSpy).toHaveBeenCalledWith(LogLevel.INFO, expect.stringContaining('Set state to false'));
   });
 
   it('should execute the commandHandlers', async () => {
