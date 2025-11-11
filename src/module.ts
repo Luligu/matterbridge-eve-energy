@@ -65,7 +65,7 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
 
     this.energy = new MatterbridgeEndpoint(
       [onOffOutlet, powerSource],
-      { uniqueStorageKey: 'Eve energy', mode: this.matterbridge.bridgeMode === 'bridge' ? 'server' : undefined },
+      { id: 'Eve energy', mode: this.matterbridge.bridgeMode === 'bridge' ? 'server' : undefined },
       this.config.debug as boolean,
     );
     this.energy.createDefaultIdentifyClusterServer();
