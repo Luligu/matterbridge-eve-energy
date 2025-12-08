@@ -17,6 +17,22 @@
 
 All notable changes to this project will be documented in this file.
 
+If you like this project and find it useful, please consider giving it a star on GitHub at https://github.com/Luligu/matterbridge-eve-motion and sponsoring it.
+
+<a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/bmc-button.svg" alt="Buy me a coffee" width="120"></a>
+
+## [2.0.2] - 2025-12-08
+
+### Changed
+
+- [package]: Updated dependencies.
+- [package]: Updated to the current Matterbridge signatures.
+- [package]: Requires Matterbridge v.3.4.0.
+- [package]: Updated tests to use the Matterbridge Jest module.
+- [package]: Bumped package to automator v.2.1.0.
+
+<a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/bmc-button.svg" alt="Buy me a coffee" width="80"></a>
+
 ## [2.0.1] - 2025-11-13
 
 ### Changed
@@ -26,9 +42,7 @@ All notable changes to this project will be documented in this file.
 - [jest]: Updated jestHelpers to v.1.0.12.
 - [workflows]: Use shallow clones and --no-fund --no-audit for faster builds.
 
-<a href="https://www.buymeacoffee.com/luligugithub">
-  <img src="bmc-button.svg" alt="Buy me a coffee" width="80">
-</a>
+<a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/bmc-button.svg" alt="Buy me a coffee" width="80"></a>
 
 ## [2.0.0] - 2025-10-24
 
@@ -48,9 +62,7 @@ All notable changes to this project will be documented in this file.
 - [devcontainer]: Added the plugin name to the container.
 - [devcontainer]: Improved performance of first build with shallow clone.
 
-<a href="https://www.buymeacoffee.com/luligugithub">
-  <img src="bmc-button.svg" alt="Buy me a coffee" width="80">
-</a>
+<a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/bmc-button.svg" alt="Buy me a coffee" width="80"></a>
 
 ## [1.3.1] - 2025-07-29
 
@@ -63,9 +75,7 @@ All notable changes to this project will be documented in this file.
 - [package]: Updated package to Automator v. 2.0.3.
 - [package]: Updated dependencies.
 
-<a href="https://www.buymeacoffee.com/luligugithub">
-  <img src="bmc-button.svg" alt="Buy me a coffee" width="80">
-</a>
+<a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/bmc-button.svg" alt="Buy me a coffee" width="80"></a>
 
 ## [1.3.0] - 2025-06-26
 
@@ -88,9 +98,7 @@ All notable changes to this project will be documented in this file.
 - [storage]: Bumped `node-storage-manager` to 2.0.0.
 - [logger]: Bumped `node-ansi-logger` to 3.1.1.
 
-<a href="https://www.buymeacoffee.com/luligugithub">
-  <img src="bmc-button.svg" alt="Buy me a coffee" width="80">
-</a>
+<a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/bmc-button.svg" alt="Buy me a coffee" width="80"></a>
 
 ## [1.2.3] - 2025-04-30
 
@@ -100,9 +108,7 @@ All notable changes to this project will be documented in this file.
 - [package]: Update package.
 - [package]: Update dependencies.
 
-<a href="https://www.buymeacoffee.com/luligugithub">
-  <img src="bmc-button.svg" alt="Buy me a coffee" width="80">
-</a>
+<a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/bmc-button.svg" alt="Buy me a coffee" width="80"></a>
 
 ## [1.2.2] - 2025-04-03
 
@@ -112,9 +118,7 @@ All notable changes to this project will be documented in this file.
 - [package]: Update package.
 - [package]: Update dependencies.
 
-<a href="https://www.buymeacoffee.com/luligugithub">
-  <img src="bmc-button.svg" alt="Buy me a coffee" width="80">
-</a>
+<a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/bmc-button.svg" alt="Buy me a coffee" width="80"></a>
 
 ## [1.2.1] - 2025-02-01
 
@@ -124,9 +128,7 @@ All notable changes to this project will be documented in this file.
 - [package]: Update package.
 - [package]: Update dependencies.
 
-<a href="https://www.buymeacoffee.com/luligugithub">
-  <img src="bmc-button.svg" alt="Buy me a coffee" width="80">
-</a>
+<a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/bmc-button.svg" alt="Buy me a coffee" width="80"></a>
 
 ## [1.1.0] - 2024-12-14
 
@@ -137,9 +139,7 @@ All notable changes to this project will be documented in this file.
 - [package]: Matter 1.3 compliant.
 - [package]: Update dependencies.
 
-<a href="https://www.buymeacoffee.com/luligugithub">
-  <img src="bmc-button.svg" alt="Buy me a coffee" width="80">
-</a>
+<a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/bmc-button.svg" alt="Buy me a coffee" width="80"></a>
 
 <!-- Commented out section
 ## [1.1.2] - 2024-03-08
