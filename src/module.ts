@@ -77,9 +77,10 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
 
     // Add the EveHistory cluster to the device as last cluster!
     this.history.createEnergyEveHistoryClusterServer(this.energy, this.log);
-    this.history.autoPilot(this.energy);
 
     await this.registerDevice(this.energy);
+
+    this.history.autoPilot(this.energy);
 
     this.energy.addCommandHandler('identify', async ({ request: { identifyTime } }) => {
       this.log.info(`Command identify called identifyTime:${identifyTime}`);
