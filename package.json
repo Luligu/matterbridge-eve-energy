@@ -73,7 +73,7 @@
     "npmPublishTagDev": "npx shx cp package.json package.json.backup && npm run prepublishOnly && npm publish --tag dev && npx shx cp package.json.backup package.json && npx shx rm -f package.json.backup && npm run reset",
     "npmPublishTagEdge": "npx shx cp package.json package.json.backup && npm run prepublishOnly && npm publish --tag edge && npx shx cp package.json.backup package.json && npx shx rm -f package.json.backup && npm run reset",
     "npmPublishTagLatest": "npx shx cp package.json package.json.backup && npm run prepublishOnly && npm publish --tag latest && npx shx cp package.json.backup package.json && npx shx rm -f package.json.backup && npm run reset",
-    "install:dependencies": "npm install --save-exact matter-history node-ansi-logger node-persist-manager",
+    "install:dependencies": "npm install --save-exact matter-history@dev node-ansi-logger node-persist-manager",
     "install:scripts": "npm install --save-dev --save-exact npm-check-updates shx cross-env",
     "install:typescript": "npm install --save-dev --save-exact typescript @types/node",
     "install:eslint": "npm install --save-dev --save-exact eslint @eslint/js typescript-eslint eslint-plugin-import eslint-plugin-n eslint-plugin-promise eslint-plugin-jsdoc",
@@ -89,10 +89,11 @@
   },
   "files": [
     "dist",
-    "npm-shrinkwrap.json"
+    "npm-shrinkwrap.json",
+    "CHANGELOG.md"
   ],
   "dependencies": {
-    "matter-history": "1.1.19",
+    "matter-history": "1.2.0",
     "node-ansi-logger": "3.1.1",
     "node-persist-manager": "2.0.0"
   },
