@@ -69,7 +69,18 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
       this.config.debug,
     );
     this.energy.createDefaultIdentifyClusterServer();
-    this.energy.createDefaultBasicInformationClusterServer('Eve energy', '0x88528475', 4874, 'Eve Systems', 80, 'Eve Energy 20EBO8301', 6650, '3.2.1', 1, '1.1');
+    this.energy.createDefaultBasicInformationClusterServer(
+      'Eve energy' + (this.matterbridge.bridgeMode === 'bridge' ? ' server' : ''),
+      '0x88528475',
+      4874,
+      'Eve Systems',
+      80,
+      'Eve Energy 20EBO8301',
+      6650,
+      '3.2.1',
+      1,
+      '1.1',
+    );
     // this.energy.createDefaultScenesClusterServer();
     this.energy.createDefaultGroupsClusterServer();
     this.energy.createDefaultOnOffClusterServer(true);
