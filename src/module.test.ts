@@ -76,7 +76,7 @@ describe('TestPlatform', () => {
     expect(loggerLogSpy).toHaveBeenCalledWith(LogLevel.INFO, 'onStart called with reason:', 'Test reason');
     expect(testPlatform.energy).toBeDefined();
     if (!testPlatform.energy) return;
-    expect(testPlatform.energy.getAllClusterServerNames()).toEqual(['descriptor', 'matterbridge', 'identify', 'groups', 'onOff', 'powerSource', 'eveHistory']);
+    expect(testPlatform.energy.getAllClusterServerNames()).toEqual(['descriptor', 'matterbridge', 'identify', 'groups', 'scenesManagement', 'onOff', 'powerSource', 'eveHistory']);
   });
 
   it('should call onConfigure', async () => {

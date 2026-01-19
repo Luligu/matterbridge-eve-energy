@@ -81,8 +81,8 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
       1,
       '1.1',
     );
-    // this.energy.createDefaultScenesClusterServer();
     this.energy.createDefaultGroupsClusterServer();
+    this.energy.createDefaultScenesManagementClusterServer();
     this.energy.createDefaultOnOffClusterServer(true);
     this.energy.createDefaultPowerSourceWiredClusterServer();
 
