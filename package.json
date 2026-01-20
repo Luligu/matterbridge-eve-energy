@@ -32,6 +32,11 @@
   "engines": {
     "node": ">=20.0.0 <21.0.0 || >=22.0.0 <23.0.0 || >=24.0.0 <25.0.0"
   },
+  "files": [
+    "dist",
+    "npm-shrinkwrap.json",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "start": "matterbridge",
     "build": "tsc --project tsconfig.json",
@@ -43,7 +48,7 @@
     "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest --maxWorkers=100%",
     "test:watch": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest --maxWorkers=100% --watch",
     "test:verbose": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest --maxWorkers=100% --verbose",
-    "test:coverage": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest --maxWorkers=100% --coverage",
+    "test:coverage": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest --maxWorkers=100% --coverage --coverageThreshold=\"{ \\\"global\\\": { \\\"lines\\\": 100 } }\"",
     "test:vitest": "vitest run",
     "test:vitest:watch": "vitest --reporter verbose",
     "test:vitest:verbose": "vitest run --reporter verbose",
@@ -87,11 +92,6 @@
     "matterbridge:disable": "matterbridge -disable .",
     "matterbridge:list": "matterbridge -list"
   },
-  "files": [
-    "dist",
-    "npm-shrinkwrap.json",
-    "CHANGELOG.md"
-  ],
   "dependencies": {
     "matter-history": "1.2.0",
     "node-ansi-logger": "3.1.1",
