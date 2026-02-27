@@ -22,9 +22,9 @@
  */
 
 import { EveHistory, MatterHistory } from 'matter-history';
-import { PlatformConfig, MatterbridgeAccessoryPlatform, powerSource, MatterbridgeEndpoint, onOffOutlet, PlatformMatterbridge } from 'matterbridge';
-import { OnOff } from 'matterbridge/matter/clusters';
+import { MatterbridgeAccessoryPlatform, MatterbridgeEndpoint, onOffOutlet, PlatformConfig, PlatformMatterbridge, powerSource } from 'matterbridge';
 import { AnsiLogger } from 'matterbridge/logger';
+import { OnOff } from 'matterbridge/matter/clusters';
 
 /**
  * This is the standard interface for MatterBridge plugins.

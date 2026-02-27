@@ -4,10 +4,8 @@ const HOMEDIR = path.join('jest', NAME);
 
 import path from 'node:path';
 
-import { PlatformConfig } from 'matterbridge';
-import { Identify } from 'matterbridge/matter/clusters';
-import { LogLevel } from 'matterbridge/logger';
 import { jest } from '@jest/globals';
+import { PlatformConfig } from 'matterbridge';
 import {
   addMatterbridgePlatform,
   createMatterbridgeEnvironment,
@@ -19,6 +17,8 @@ import {
   startMatterbridgeEnvironment,
   stopMatterbridgeEnvironment,
 } from 'matterbridge/jestutils';
+import { LogLevel } from 'matterbridge/logger';
+import { Identify } from 'matterbridge/matter/clusters';
 
 import initializePlugin, { EveEnergyPlatform } from './module.js';
 
