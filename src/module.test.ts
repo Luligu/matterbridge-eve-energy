@@ -104,8 +104,14 @@ describe('TestPlatform', () => {
   it('should execute the commandHandlers', async () => {
     expect(testPlatform.energy).toBeDefined();
     if (!testPlatform.energy) return;
-    await testPlatform.energy.executeCommandHandler('identify', { identifyTime: 5 });
-    await testPlatform.energy.executeCommandHandler('triggerEffect', { effectIdentifier: Identify.EffectIdentifier.Blink, effectVariant: Identify.EffectVariant.Default });
+    await testPlatform.energy.executeCommandHandler('identify', { identifyTime: 5 }, 'identify', {} as any, testPlatform.energy);
+    await testPlatform.energy.executeCommandHandler(
+      'triggerEffect',
+      { effectIdentifier: Identify.EffectIdentifier.Blink, effectVariant: Identify.EffectVariant.Default },
+      'identify',
+      {} as any,
+      testPlatform.energy,
+    );
   });
 
   it('should call onShutdown with reason', async () => {
