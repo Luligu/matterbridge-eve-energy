@@ -28,7 +28,7 @@ If you like this project and find it useful, please consider giving it a star on
 
 <a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/assets/bmc-button.svg" alt="Buy me a coffee" width="120"></a>
 
-## [2.0.9] - Dev branch
+## [2.0.9] - 2025-05-01
 
 ### Changed
 
@@ -37,7 +37,7 @@ If you like this project and find it useful, please consider giving it a star on
 - [package]: Bump package to `automator` v.3.1.6.
 - [package]: Bump `typescript` to v.6.0.3.
 - [package]: Bump `eslint` to v.10.2.1.
-- [package]: Bump `typescript-eslint` to v.8.58.2.
+- [package]: Bump `typescript-eslint` to v.8.59.1.
 - [package]: Bump `prettier` to v.3.8.3.
 - [package]: Bump `node-ansi-logger` to v.3.2.1.
 - [package]: Bump `node-persist-manager` to v.2.0.2.
@@ -54,6 +54,11 @@ If you like this project and find it useful, please consider giving it a star on
 - [scripts]: Update mb-run script.
 - [scripts]: Update package watch script.
 - [scripts]: Add prune-releases script.
+- [eslint]: Remove `eslint-plugin-promise` (not actively maintained) and add optional @typescript-eslint promise rules.
+- [package]: Remove `overrides` that was necessary for eslint-plugin-promise.
+- [eslint]: Add `eslint` v.2.0.0 config.
+- [prettier]: Add `prettier` v.2.0.0 config.
+- [jest]: Add `jest` v.2.0.0 config.
 
 <a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/assets/bmc-button.svg" alt="Buy me a coffee" width="80"></a>
 
