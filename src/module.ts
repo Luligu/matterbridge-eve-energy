@@ -25,6 +25,7 @@ import { EveHistory, MatterHistory } from 'matter-history';
 import { MatterbridgeAccessoryPlatform, MatterbridgeEndpoint, onOffOutlet, PlatformConfig, PlatformMatterbridge, powerSource } from 'matterbridge';
 import { AnsiLogger } from 'matterbridge/logger';
 import { OnOff } from 'matterbridge/matter/clusters';
+import { fireAndForget } from 'matterbridge/utils';
 
 /**
  * This is the standard interface for MatterBridge plugins.
@@ -93,12 +94,12 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
 
     this.history.autoPilot(this.energy);
 
-    this.energy.addCommandHandler('identify', async ({ request: { identifyTime } }) => {
+    this.energy.addCommandHandler('identify', ({ request: { identifyTime } }) => {
       this.log.info(`Command identify called identifyTime:${identifyTime}`);
       this.history?.logHistory(false);
     });
 
-    this.energy.addCommandHandler('triggerEffect', async ({ request: { effectIdentifier, effectVariant } }) => {
+    this.energy.addCommandHandler('triggerEffect', ({ request: { effectIdentifier, effectVariant } }) => {
       this.log.info(`Command triggerEffect called effect ${effectIdentifier} variant ${effectVariant}`);
       this.history?.logHistory(false);
     });
@@ -109,21 +110,27 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
     this.log.info('onConfigure called');
 
     this.interval = setInterval(
-      async () => {
-        if (!this.energy || !this.history) return;
-        this.state = !this.state;
-        const voltage = this.history.getFakeLevel(210, 235, 2);
-        const current = this.state === true ? this.history.getFakeLevel(0.05, 10.5, 2) : 0;
-        const power = this.state === true ? this.history.getFakeLevel(0.5, 1550, 2) : 0;
-        const consumption = this.history.getFakeLevel(0.5, 1550, 2);
-        await this.energy.setAttribute(OnOff.Cluster.id, 'onOff', this.state, this.log);
-        await this.energy.setAttribute(EveHistory.Cluster.id, 'voltage', voltage, this.log);
-        await this.energy.setAttribute(EveHistory.Cluster.id, 'current', current, this.log);
-        await this.energy.setAttribute(EveHistory.Cluster.id, 'consumption', power, this.log);
-        await this.energy.setAttribute(EveHistory.Cluster.id, 'totalConsumption', consumption, this.log);
-        this.history.setLastEvent();
-        this.history.addEntry({ time: this.history.now(), status: this.state === true ? 1 : 0, voltage, current, power, consumption });
-        this.log.info(`Set state to ${this.state} voltage:${voltage} current:${current} power:${power} consumption:${consumption}`);
+      () => {
+        fireAndForget(
+          (async () => {
+            if (!this.energy || !this.history) return;
+            this.state = !this.state;
+            const voltage = this.history.getFakeLevel(210, 235, 2);
+            const current = this.state === true ? this.history.getFakeLevel(0.05, 10.5, 2) : 0;
+            const power = this.state === true ? this.history.getFakeLevel(0.5, 1550, 2) : 0;
+            const consumption = this.history.getFakeLevel(0.5, 1550, 2);
+            await this.energy.setAttribute(OnOff.Cluster.id, 'onOff', this.state, this.log);
+            await this.energy.setAttribute(EveHistory.Cluster.id, 'voltage', voltage, this.log);
+            await this.energy.setAttribute(EveHistory.Cluster.id, 'current', current, this.log);
+            await this.energy.setAttribute(EveHistory.Cluster.id, 'consumption', power, this.log);
+            await this.energy.setAttribute(EveHistory.Cluster.id, 'totalConsumption', consumption, this.log);
+            this.history.setLastEvent();
+            this.history.addEntry({ time: this.history.now(), status: this.state === true ? 1 : 0, voltage, current, power, consumption });
+            this.log.info(`Set state to ${this.state} voltage:${voltage} current:${current} power:${power} consumption:${consumption}`);
+          })(),
+          this.log,
+          'setInterval',
+        );
       },
       60 * 1000 - 200,
     );

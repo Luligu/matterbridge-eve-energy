@@ -48,7 +48,7 @@ describe('TestPlatform', () => {
   afterAll(async () => {
     // Destroy Matterbridge environment
     await stopMatterbridgeEnvironment(MATTER_CREATE_ONLY);
-    await destroyMatterbridgeEnvironment(undefined, undefined, !MATTER_CREATE_ONLY);
+    await destroyMatterbridgeEnvironment(undefined, undefined, true, true);
     // Restore all mocks
     jest.restoreAllMocks();
   });
@@ -60,9 +60,10 @@ describe('TestPlatform', () => {
   });
 
   it('should not initialize platform with wrong version', () => {
+    const savedVersion = matterbridge.matterbridgeVersion;
     matterbridge.matterbridgeVersion = '1.5.0';
     expect(() => (testPlatform = new EveEnergyPlatform(matterbridge, log, config))).toThrow();
-    matterbridge.matterbridgeVersion = '3.5.0';
+    matterbridge.matterbridgeVersion = savedVersion;
   });
 
   it('should initialize platform with config name', () => {
