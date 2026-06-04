@@ -117,6 +117,8 @@ describe('TestPlatform', () => {
 
   it('should call onShutdown with reason', async () => {
     await testPlatform.onShutdown('Test reason');
+    testPlatform.config.unregisterOnShutdown = true;
+    await testPlatform.onShutdown();
     expect(loggerLogSpy).toHaveBeenCalledWith(LogLevel.INFO, 'onShutdown called with reason:', 'Test reason');
   });
 });

@@ -113,6 +113,7 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
       () => {
         fireAndForget(
           (async () => {
+            // istanbul ignore next if because this is a safety check, but it should never happen because the interval is cleared on shutdown
             if (!this.energy || !this.history) return;
             this.state = !this.state;
             const voltage = this.history.getFakeLevel(210, 235, 2);
