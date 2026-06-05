@@ -114,7 +114,7 @@
     "matterbridge:list": "matterbridge -list"
   },
   "dependencies": {
-    "matter-history": "1.2.2-dev-20260523-e0ab3e2",
+    "matter-history": "1.2.2",
     "node-ansi-logger": "3.2.1",
     "node-persist-manager": "2.0.2"
   },
