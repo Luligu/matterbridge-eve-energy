@@ -86,6 +86,7 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
     this.energy.createDefaultScenesManagementClusterServer();
     this.energy.createDefaultOnOffClusterServer(true);
     this.energy.createDefaultPowerSourceWiredClusterServer();
+    this.energy.addRequiredClusters();
 
     // Add the EveHistory cluster to the device as last cluster!
     this.history.createEnergyEveHistoryClusterServer(this.energy, this.log);
