@@ -2,28 +2,28 @@ const NAME = 'Platform';
 const MATTER_PORT = 6000;
 const MATTER_CREATE_ONLY = true;
 
-import { jest } from '@jest/globals';
-import { PlatformConfig } from 'matterbridge';
-import {
-  addMatterbridgePlatform,
-  createMatterbridgeEnvironment,
-  destroyMatterbridgeEnvironment,
-  log,
-  loggerLogSpy,
-  matterbridge,
-  setupTest,
-  startMatterbridgeEnvironment,
-  stopMatterbridgeEnvironment,
-} from 'matterbridge/jestutils';
+import type { PlatformConfig, PlatformMatterbridge } from 'matterbridge';
 import { LogLevel } from 'matterbridge/logger';
 import { Identify } from 'matterbridge/matter/clusters';
+import { log, loggerLogSpy, setupTest } from 'matterbridge/vitest-utils';
+import {
+  addMatterbridge,
+  createServerNode,
+  createTestEnvironment,
+  destroyTestEnvironment,
+  flushServerNode,
+  getMatterbridge,
+  startServerNode,
+  stopServerNode,
+} from 'matterbridge/vitest-utils/matter';
 
-import initializePlugin, { EveEnergyPlatform } from './module.js';
+import initializePlugin, { EveEnergyPlatform } from '../src/module.js';
 
 // Setup the test environment
-setupTest(NAME, false);
+await setupTest(NAME, false);
 
 describe('TestPlatform', () => {
+  let matterbridge: PlatformMatterbridge;
   let testPlatform: EveEnergyPlatform;
 
   const config: PlatformConfig = {
@@ -35,22 +35,25 @@ describe('TestPlatform', () => {
   };
 
   beforeAll(async () => {
-    // Create Matterbridge environment
-    await createMatterbridgeEnvironment();
-    await startMatterbridgeEnvironment(MATTER_PORT, MATTER_CREATE_ONLY);
+    // Create the Matter test environment
+    await createTestEnvironment();
+    await createServerNode(MATTER_PORT);
+    if (!MATTER_CREATE_ONLY) await startServerNode();
+    matterbridge = getMatterbridge();
   });
 
   beforeEach(() => {
     // Reset the mock calls before each test
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   afterAll(async () => {
-    // Destroy Matterbridge environment
-    await stopMatterbridgeEnvironment(MATTER_CREATE_ONLY);
-    await destroyMatterbridgeEnvironment(undefined, undefined, true, true);
+    // Destroy the Matter test environment
+    if (MATTER_CREATE_ONLY) await flushServerNode();
+    else await stopServerNode();
+    await destroyTestEnvironment();
     // Restore all mocks
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   it('should return an instance of Platform', async () => {
@@ -60,15 +63,14 @@ describe('TestPlatform', () => {
   });
 
   it('should not initialize platform with wrong version', () => {
-    const savedVersion = matterbridge.matterbridgeVersion;
-    matterbridge.matterbridgeVersion = '1.5.0';
-    expect(() => (testPlatform = new EveEnergyPlatform(matterbridge, log, config))).toThrow();
-    matterbridge.matterbridgeVersion = savedVersion;
+    expect(() => (testPlatform = new EveEnergyPlatform({ ...matterbridge, matterbridgeVersion: '3.8.0' }, log, config))).toThrow(
+      'This plugin requires Matterbridge version >= "3.9.0".',
+    );
   });
 
   it('should initialize platform with config name', () => {
     testPlatform = new EveEnergyPlatform(matterbridge, log, config);
-    addMatterbridgePlatform(testPlatform);
+    addMatterbridge(testPlatform);
     expect(loggerLogSpy).toHaveBeenCalledWith(LogLevel.INFO, 'Initializing platform:', config.name);
   });
 
@@ -84,16 +86,16 @@ describe('TestPlatform', () => {
     expect(testPlatform.energy).toBeDefined();
     if (!testPlatform.energy) return;
 
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     await testPlatform.onConfigure();
     expect(loggerLogSpy).toHaveBeenCalledWith(LogLevel.INFO, 'onConfigure called');
 
     for (let i = 0; i < 20; i++) {
-      await jest.advanceTimersByTimeAsync(61 * 1000);
+      await vi.advanceTimersByTimeAsync(61 * 1000);
     }
 
-    jest.useRealTimers();
+    vi.useRealTimers();
 
     expect(loggerLogSpy).toHaveBeenCalled();
     expect(loggerLogSpy).not.toHaveBeenCalledWith(LogLevel.ERROR, expect.anything());

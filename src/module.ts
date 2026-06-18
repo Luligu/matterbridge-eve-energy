@@ -22,8 +22,8 @@
  */
 
 import { EveHistory, MatterHistory } from 'matter-history';
-import { MatterbridgeAccessoryPlatform, MatterbridgeEndpoint, onOffOutlet, PlatformConfig, PlatformMatterbridge, powerSource } from 'matterbridge';
-import { AnsiLogger } from 'matterbridge/logger';
+import { MatterbridgeAccessoryPlatform, MatterbridgeEndpoint, onOffPlugInUnit, type PlatformConfig, type PlatformMatterbridge, powerSource } from 'matterbridge';
+import type { AnsiLogger } from 'matterbridge/logger';
 import { OnOff } from 'matterbridge/matter/clusters';
 import { fireAndForget } from 'matterbridge/utils';
 
@@ -50,22 +50,22 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
     super(matterbridge, log, config);
 
     // Verify that Matterbridge is the correct version
-    if (this.verifyMatterbridgeVersion === undefined || typeof this.verifyMatterbridgeVersion !== 'function' || !this.verifyMatterbridgeVersion('3.8.0')) {
+    if (typeof this.verifyMatterbridgeVersion !== 'function' || !this.verifyMatterbridgeVersion('3.9.0')) {
       throw new Error(
-        `This plugin requires Matterbridge version >= "3.8.0". Please update Matterbridge from ${this.matterbridge.matterbridgeVersion} to the latest version in the frontend."`,
+        `This plugin requires Matterbridge version >= "3.9.0". Please update Matterbridge from ${this.matterbridge.matterbridgeVersion} to the latest version in the frontend."`,
       );
     }
 
     this.log.info('Initializing platform:', this.config.name);
   }
 
-  override async onStart(reason?: string) {
+  override async onStart(reason?: string): Promise<void> {
     this.log.info('onStart called with reason:', reason ?? 'none');
 
-    this.history = new MatterHistory(this.log, 'Eve energy', { filePath: this.matterbridge.matterbridgeDirectory, enableDebug: this.config.debug as boolean });
+    this.history = new MatterHistory(this.log, 'Eve energy', { filePath: this.matterbridge.matterbridgeDirectory, enableDebug: this.config.debug });
 
     this.energy = new MatterbridgeEndpoint(
-      [onOffOutlet, powerSource],
+      [onOffPlugInUnit, powerSource],
       { id: 'Eve energy', mode: this.matterbridge.bridgeMode === 'bridge' ? 'server' : undefined },
       this.config.debug,
     );
@@ -106,28 +106,28 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
     });
   }
 
-  override async onConfigure() {
+  override async onConfigure(): Promise<void> {
     await super.onConfigure();
     this.log.info('onConfigure called');
 
     this.interval = setInterval(
       () => {
         fireAndForget(
-          (async () => {
+          (async (): Promise<void> => {
             // istanbul ignore next if because this is a safety check, but it should never happen because the interval is cleared on shutdown
             if (!this.energy || !this.history) return;
             this.state = !this.state;
             const voltage = this.history.getFakeLevel(210, 235, 2);
-            const current = this.state === true ? this.history.getFakeLevel(0.05, 10.5, 2) : 0;
-            const power = this.state === true ? this.history.getFakeLevel(0.5, 1550, 2) : 0;
+            const current = this.state ? this.history.getFakeLevel(0.05, 10.5, 2) : 0;
+            const power = this.state ? this.history.getFakeLevel(0.5, 1550, 2) : 0;
             const consumption = this.history.getFakeLevel(0.5, 1550, 2);
-            await this.energy.setAttribute(OnOff.Cluster.id, 'onOff', this.state, this.log);
-            await this.energy.setAttribute(EveHistory.Cluster.id, 'voltage', voltage, this.log);
-            await this.energy.setAttribute(EveHistory.Cluster.id, 'current', current, this.log);
-            await this.energy.setAttribute(EveHistory.Cluster.id, 'consumption', power, this.log);
-            await this.energy.setAttribute(EveHistory.Cluster.id, 'totalConsumption', consumption, this.log);
+            await this.energy.setAttribute(OnOff, 'onOff', this.state, this.log);
+            await this.energy.setAttribute(EveHistory, 'voltage', voltage, this.log);
+            await this.energy.setAttribute(EveHistory, 'current', current, this.log);
+            await this.energy.setAttribute(EveHistory, 'consumption', power, this.log);
+            await this.energy.setAttribute(EveHistory, 'totalConsumption', consumption, this.log);
             this.history.setLastEvent();
-            this.history.addEntry({ time: this.history.now(), status: this.state === true ? 1 : 0, voltage, current, power, consumption });
+            this.history.addEntry({ time: this.history.now(), status: this.state ? 1 : 0, voltage, current, power, consumption });
             this.log.info(`Set state to ${this.state} voltage:${voltage} current:${current} power:${power} consumption:${consumption}`);
           })(),
           this.log,
@@ -138,11 +138,11 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
     );
   }
 
-  override async onShutdown(reason?: string) {
+  override async onShutdown(reason?: string): Promise<void> {
     await super.onShutdown(reason);
     this.log.info('onShutdown called with reason:', reason ?? 'none');
     await this.history?.close();
     clearInterval(this.interval);
-    if (this.config.unregisterOnShutdown === true) await this.unregisterAllDevices();
+    if (this.config.unregisterOnShutdown) await this.unregisterAllDevices();
   }
 }
