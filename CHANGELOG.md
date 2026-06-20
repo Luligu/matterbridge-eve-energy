@@ -43,8 +43,10 @@ If you like this project and find it useful, please consider giving it a star on
 - [workflow]: Bump `.github\workflows\build.yml` config to v.2.0.4.
 - [workflow]: Bump `.github\workflows\codecov.yml` config to v.2.0.5.
 - [workflow]: Bump `.github\workflows\publish.yml` config to v.2.0.4.
-- [oxlint]: Bump `oxlint` config to v.1.0.10.
+- [oxlint]: Bump `oxlint` config to v.1.0.13.
 - [oxfmt]: Bump `oxfmt` config to v.1.0.3.
+- [devcontainer]: Bump `.devcontainer/devcontainer.json` config to v.1.0.4.
+- [package]: Bump `.vscode/extensions.json` config to v.1.0.4.
 
 <a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/assets/bmc-button.svg" alt="Buy me a coffee" width="80"></a>
 
