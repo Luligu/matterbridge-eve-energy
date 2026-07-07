@@ -1,7 +1,6 @@
 /**
- * This file contains the class EveEnergyPlatform.
- *
- * @file module.ts
+ * @file src/module.ts
+ * @description This file contains the class EveEnergyPlatform.
  * @author Luca Liguori
  * @version 2.0.0
  * @license Apache-2.0
@@ -114,7 +113,7 @@ export class EveEnergyPlatform extends MatterbridgeAccessoryPlatform {
       () => {
         fireAndForget(
           (async (): Promise<void> => {
-            // istanbul ignore next if because this is a safety check, but it should never happen because the interval is cleared on shutdown
+            /* v8 ignore next if because this is a safety check, but it should never happen because the interval is cleared on shutdown */
             if (!this.energy || !this.history) return;
             this.state = !this.state;
             const voltage = this.history.getFakeLevel(210, 235, 2);
