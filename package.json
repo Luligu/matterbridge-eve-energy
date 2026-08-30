@@ -97,7 +97,7 @@
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:verbose": "vitest run --reporter verbose",
-    "test:coverage": "vitest run --coverage --coverage.thresholds.lines=100 --coverage.thresholds.functions=100 --coverage.thresholds.branches=100 --coverage.thresholds.statements=100",
+    "test:coverage": "vitest run --coverage --coverage.thresholds.statements=100 --coverage.thresholds.branches=100 --coverage.thresholds.lines=100 --coverage.thresholds.functions=100",
     "lint": "oxlint --disable-nested-config",
     "lint:fix": "oxlint --disable-nested-config --fix",
     "format": "oxfmt",
@@ -111,8 +111,8 @@
   },
   "dependencies": {
     "matter-history": "1.2.2",
-    "node-ansi-logger": "3.3.0",
-    "node-persist-manager": "2.1.0"
+    "node-ansi-logger": "3.3.1",
+    "node-persist-manager": "2.1.1"
   },
   "devDependencies": {
     "@types/node": "26.4.0",

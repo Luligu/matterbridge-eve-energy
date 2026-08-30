@@ -29,7 +29,7 @@ If you like this project and find it useful, please consider giving it a star on
 
 <a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/assets/bmc-button.svg" alt="Buy me a coffee" width="120"></a>
 
-## [3.0.3] - Dev branch
+## [3.0.3] - 2026-08-30
 
 ### Added
 
@@ -42,6 +42,8 @@ If you like this project and find it useful, please consider giving it a star on
 - [package]: Bump `oxlint` to v.1.80.0.
 - [package]: Bump `vitest` to v.4.1.11.
 - [package]: Bump `@types/node` to v.26.4.0.
+- [package]: Bump `node-ansi-logger` to v.3.3.1.
+- [package]: Bump `node-persist-manager` to v.2.1.1.
 
 <a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/assets/bmc-button.svg" alt="Buy me a coffee" width="80"></a>
 
