@@ -11,7 +11,6 @@ const MATTER_CREATE_ONLY = true;
 import type { PlatformConfig, PlatformMatterbridge } from 'matterbridge';
 import { LogLevel } from 'matterbridge/logger';
 import { Identify } from 'matterbridge/matter/clusters';
-import { log, loggerLogSpy, setupTest } from 'matterbridge/vitest-utils';
 import {
   addMatterbridge,
   createServerNode,
@@ -19,9 +18,12 @@ import {
   destroyTestEnvironment,
   flushServerNode,
   getMatterbridge,
+  log,
+  loggerLogSpy,
+  setupTest,
   startServerNode,
   stopServerNode,
-} from 'matterbridge/vitest-utils/matter';
+} from 'matterbridge/test-utils/vitest';
 
 import initializePlugin, { EveEnergyPlatform } from '../src/module.js';
 
