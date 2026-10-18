@@ -147,6 +147,60 @@
       "problemMatcher": []
     },
     {
+      "label": "Bundle",
+      "detail": "Bundle with esbuild using mb-run",
+      "type": "shell",
+      "command": "npx",
+      "args": ["--yes", "mb-run", "--esbuild"],
+      "group": { "kind": "build", "isDefault": false },
+      "problemMatcher": []
+    },
+    {
+      "label": "Minify",
+      "detail": "Bundle and minify with esbuild using mb-run",
+      "type": "shell",
+      "command": "npx",
+      "args": ["--yes", "mb-run", "--esbuild", "minify"],
+      "group": { "kind": "build", "isDefault": false },
+      "problemMatcher": []
+    },
+    {
+      "label": "Obfuscate",
+      "detail": "Bundle, minify and obfuscate with esbuild using mb-run",
+      "type": "shell",
+      "command": "npx",
+      "args": ["--yes", "mb-run", "--esbuild", "minify", "obfuscate"],
+      "group": { "kind": "build", "isDefault": false },
+      "problemMatcher": []
+    },
+    {
+      "label": "Pack",
+      "detail": "Build and pack the package tarball using mb-run",
+      "type": "shell",
+      "command": "npx",
+      "args": ["--yes", "mb-run", "--pack"],
+      "group": { "kind": "build", "isDefault": false },
+      "problemMatcher": []
+    },
+    {
+      "label": "Pack Minify",
+      "detail": "Build, minify and pack the package tarball using mb-run",
+      "type": "shell",
+      "command": "npx",
+      "args": ["--yes", "mb-run", "--pack", "minify"],
+      "group": { "kind": "build", "isDefault": false },
+      "problemMatcher": []
+    },
+    {
+      "label": "Pack Obfuscate",
+      "detail": "Build, minify, obfuscate and pack the package tarball using mb-run",
+      "type": "shell",
+      "command": "npx",
+      "args": ["--yes", "mb-run", "--pack", "minify", "obfuscate"],
+      "group": { "kind": "build", "isDefault": false },
+      "problemMatcher": []
+    },
+    {
       "label": "Git Status",
       "detail": "Run Git Status Script",
       "type": "shell",
