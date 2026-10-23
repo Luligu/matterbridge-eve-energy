@@ -72,7 +72,7 @@ describe('TestPlatform', () => {
 
   it('should not initialize platform with wrong version', () => {
     expect(() => (testPlatform = new EveEnergyPlatform({ ...matterbridge, matterbridgeVersion: '3.8.0' }, log, config))).toThrow(
-      'This plugin requires Matterbridge version >= "3.10.10".',
+      'This plugin requires Matterbridge version >= "3.11.0".',
     );
   });
 
